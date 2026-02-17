@@ -28,7 +28,7 @@ function compose(username, result) {
   // Miss
   return (
     `@${username} ❌ The keeper saves it! You took ${time} seconds — a World ` +
-    `Cup striker need to make every move count.\n\n` +
+    `Cup striker needs to make every move count.\n\n` +
     `Better luck next time`
   );
 }
