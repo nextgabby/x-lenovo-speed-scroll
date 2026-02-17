@@ -29,7 +29,7 @@ function compose(username, result) {
   return (
     `@${username} ❌ The keeper saves it! You took ${time} seconds — a World ` +
     `Cup striker needs to be quicker than that! The best goals come from ` +
-    `players who make every move count.\n\n`
+    `players who make every move count.\n\n` +
     `Better luck next time`
   );
 }
