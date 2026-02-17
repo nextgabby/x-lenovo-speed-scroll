@@ -83,6 +83,19 @@ app.post("/admin/delete-webhook", async (_req, res) => {
   }
 });
 
+app.post("/admin/delete-webhook/:id", async (req, res) => {
+  try {
+    await deleteWebhook(req.params.id);
+    res.json({ ok: true });
+  } catch (err) {
+    console.error("Webhook delete failed:", err.response?.data || err.message);
+    res.status(500).json({
+      error: "Webhook delete failed",
+      details: err.response?.data || err.message,
+    });
+  }
+});
+
 app.get("/admin/webhook-status", async (_req, res) => {
   const status = await getWebhookStatus();
   res.json(status);

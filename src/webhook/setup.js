@@ -8,6 +8,15 @@ const BASE = "https://api.x.com";
 let registeredWebhookId = null;
 
 async function registerWebhook() {
+  // Check if a webhook for our URL already exists
+  const existing = await getWebhooks();
+  const match = existing.find((w) => w.url === config.webhookUrl);
+  if (match) {
+    registeredWebhookId = match.id;
+    console.log("Webhook already registered:", match);
+    return match;
+  }
+
   const url = `${BASE}/2/webhooks`;
 
   const res = await axios.post(
@@ -92,15 +101,16 @@ async function getSubscriptions(webhookId) {
 async function getWebhookStatus() {
   try {
     const webhooks = await getWebhooks();
+    const ours = webhooks.find((w) => w.url === config.webhookUrl) || null;
     let subscriptions = null;
-    if (webhooks.length > 0) {
+    if (ours) {
       try {
-        subscriptions = await getSubscriptions(webhooks[0].id);
+        subscriptions = await getSubscriptions(ours.id);
       } catch {
         // May fail if no subscriptions exist
       }
     }
-    return { webhooks, subscriptions };
+    return { ours, allWebhooks: webhooks, subscriptions };
   } catch (err) {
     return { error: err.response?.data || err.message };
   }
@@ -114,8 +124,16 @@ async function resolveWebhookId() {
     throw new Error("No webhooks registered. Run setup-webhook first.");
   }
 
-  registeredWebhookId = webhooks[0].id;
-  return registeredWebhookId;
+  // Find the webhook matching our configured URL
+  const match = webhooks.find((w) => w.url === config.webhookUrl);
+  if (match) {
+    registeredWebhookId = match.id;
+    return registeredWebhookId;
+  }
+
+  throw new Error(
+    `No webhook found for ${config.webhookUrl}. Run setup-webhook first.`
+  );
 }
 
 module.exports = {
