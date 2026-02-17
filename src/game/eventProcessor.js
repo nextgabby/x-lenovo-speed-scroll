@@ -77,7 +77,7 @@ async function handleLastLike(userId, username, timestamp) {
     console.log(`[${username}] offside — no CTA like recorded`);
     const text = compose(username, null);
     try {
-      const tweetId = await postReply(text, config.posts.last);
+      const tweetId = await postReply(text);
       console.log(`[${username}] offside reply sent: ${tweetId}`);
     } catch (err) {
       console.error(`[${username}] failed to send offside reply:`, err.message);
@@ -101,7 +101,7 @@ async function handleLastLike(userId, username, timestamp) {
   );
 
   try {
-    const tweetId = await postReply(text, config.posts.last);
+    const tweetId = await postReply(text);
     participant.replied = true;
     participant.replyTweetId = tweetId;
     console.log(`[${username}] reply sent: ${tweetId}`);

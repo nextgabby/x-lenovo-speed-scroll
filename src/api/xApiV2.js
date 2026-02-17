@@ -3,13 +3,10 @@ const { getAuthHeader } = require("./auth");
 
 const TWEETS_URL = "https://api.x.com/2/tweets";
 
-async function postReply(text, inReplyToTweetId) {
+async function postReply(text) {
   const body = {
     text,
     nullcast: true,
-    reply: {
-      in_reply_to_tweet_id: inReplyToTweetId,
-    },
   };
 
   const request = {
@@ -32,7 +29,7 @@ async function postReply(text, inReplyToTweetId) {
 async function postTestReply(handle) {
   const text = `@${handle} This is a test reply from the Pitch Pursuit campaign service. If you see this, nullcast replies are working!`;
 
-  return postReply(text, "2022368240001785909");
+  return postReply(text);
 }
 
 module.exports = { postReply, postTestReply };
