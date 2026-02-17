@@ -1,7 +1,7 @@
 const express = require("express");
 const config = require("./config");
 const { handleCrc } = require("./webhook/crc");
-const { handleWebhook } = require("./webhook/handler");
+const { handleWebhook, getRecentLogs } = require("./webhook/handler");
 const {
   registerWebhook,
   subscribeAccount,
@@ -94,6 +94,10 @@ app.post("/admin/delete-webhook/:id", async (req, res) => {
       details: err.response?.data || err.message,
     });
   }
+});
+
+app.get("/admin/logs", (_req, res) => {
+  res.json(getRecentLogs());
 });
 
 app.get("/admin/webhook-status", async (_req, res) => {
