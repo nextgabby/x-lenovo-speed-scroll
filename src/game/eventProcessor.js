@@ -33,10 +33,15 @@ function processEvent(event) {
 
 function handleCtaLike(userId, username, timestamp) {
   const existing = store.getParticipant(userId);
-  if (existing) {
-    // Already started — ignore duplicate CTA likes
-    console.log(`[${username}] already started, ignoring duplicate CTA like`);
+  if (existing && existing.scored === null) {
+    // Currently in progress — ignore duplicate CTA like
+    console.log(`[${username}] already in progress, ignoring duplicate CTA like`);
     return;
+  }
+
+  // New player or replay (already scored — reset for a new round)
+  if (existing) {
+    console.log(`[${username}] replaying — resetting for new round`);
   }
 
   store.createParticipant(userId, username, timestamp);
