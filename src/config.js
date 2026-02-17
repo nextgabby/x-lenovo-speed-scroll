@@ -25,7 +25,6 @@ module.exports = {
     accessTokenSecret: process.env.X_ACCESS_TOKEN_SECRET,
     bearerToken: process.env.X_BEARER_TOKEN,
   },
-  webhookEnv: process.env.WEBHOOK_ENV,
   webhookUrl: process.env.WEBHOOK_URL,
   port: process.env.PORT || 3000,
 };
