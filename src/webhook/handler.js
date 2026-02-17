@@ -19,6 +19,7 @@ function handleWebhook(req, res) {
   log({
     type: "incoming",
     hasSignature: !!signature,
+    forUserId: req.body?.for_user_id || null,
     bodyKeys: Object.keys(req.body || {}),
     bodyPreview: rawBody?.substring(0, 200),
   });
